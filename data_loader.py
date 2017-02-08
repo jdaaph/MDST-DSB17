@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import dicom
@@ -79,10 +80,10 @@ if __name__ == '__main__':
 	dl = DataLoader()
 	# return all the ids from file: stage1_labels.csv
 	ids = dl.load_sample_ids()
-	print ids[:10]
-	print 'number of patients', len(ids)
+	print('First 10 patients ids: ', ids[:10])
+	print('number of patients', len(ids))
 	# load 3D image for the first patient
 	p1 = dl.load_example(ids[0])
-	print p1.shape, type(p1)
+	print('3D image: ', p1.shape, type(p1))
 	# print the first patient label (cancer:1, not cancer: 0)
-	print dl.load_label(ids[0])
+	print('first patient label: ', dl.load_label(ids[0]))
