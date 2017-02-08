@@ -6,7 +6,6 @@ import os
 class DataLoader():
 	"""
 	Version 1 of data loader. 
-
 	"""
 	def __init__(self,fpath = '/scratch/mdatascienceteam_flux/shared/DSB_2017/', csv_file = 'stage1_labels.csv'):
 		self.fpath = fpath
@@ -76,11 +75,14 @@ class DataLoader():
 
 if __name__ == '__main__':
 	# test
+	# default: fpath: path for the csv file; csv_name: the csv file of labels 
 	dl = DataLoader()
+	# return all the ids from file: stage1_labels.csv
 	ids = dl.load_sample_ids()
 	print ids[:10]
-	print 'shape:', len(ids)
+	print 'number of patients', len(ids)
+	# load 3D image for the first patient
 	p1 = dl.load_example(ids[0])
 	print p1.shape, type(p1)
-
+	# print the first patient label (cancer:1, not cancer: 0)
 	print dl.load_label(ids[0])
