@@ -66,16 +66,24 @@ def main():
     np.save(OUTPUT_FOLDER+'sample_X.npy', total_data)
     np.save(OUTPUT_FOLDER+'sample_y.npy', np.array(y))
 
-def load_sample():
+def load_sample(seed=111):
     FOLDER = '/scratch/mdatascienceteam_flux/shared/dsb_external/sample/'
     X = np.load(FOLDER + 'sample_X.npy')
     y = np.load(FOLDER + 'sample_y.npy')
 
-    x_train = np.zeros((nb_train_samples, 1, 32, 32), dtype='int16')
-    y_train = np.zeros((nb_train_samples,), dtype='float')
-    
-    
-    
+    nb_train_samples = X.shape[0]
+    x_total = np.zeros((nb_train_samples, 1, 512, 512), dtype='int16')
+    y_total = np.zeros((nb_train_samples,), dtype='float')
+
+    x_total[:,0,:,:] = X
+    y_total[:] = y
+
+    np.random.seed(seed)
+    indices = numpy.random.permutation(nb_train_samples)
+    cutoff = np.ceil(0.8*nb_train_samples)
+    train_idx, test_idx = indices[:cutoff], indices[cutoff:]
+
+    return (x_total[train_idx,:,:,:], y_total[train_idx]), (x_total[test_idx,:,:,:], y_total[test_idx])
 
 if __name__ == "__main__":
     main()
