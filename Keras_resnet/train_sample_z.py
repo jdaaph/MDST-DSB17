@@ -62,7 +62,7 @@ if not data_augmentation:
               nb_epoch=nb_epoch,
               validation_data=(X_test, Y_test),
               shuffle=True,
-              callbacks=[lr_reducer, csv_logger])
+              callbacks=[lr_reducer, early_stopper, csv_logger])
 else:
     print('Using real-time data augmentation.')
     # This will do preprocessing and realtime data augmentation:
@@ -87,4 +87,4 @@ else:
                         samples_per_epoch=X_train.shape[0],
                         validation_data=(X_test, Y_test),
                         nb_epoch=nb_epoch, verbose=1, max_q_size=100,
-                        callbacks=[lr_reducer, csv_logger])
+                        callbacks=[lr_reducer, early_stopper, csv_logger])
