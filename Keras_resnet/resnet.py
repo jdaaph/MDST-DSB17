@@ -176,7 +176,7 @@ def _get_block(identifier):
 
 class ResnetBuilder(object):
     @staticmethod
-    def build(input_shape, num_outputs, block_fn, repetitions, last_activation='relu'):
+    def build(input_shape, num_outputs, block_fn, repetitions, last_activation='linear'):
         """Builds a custom ResNet like architecture.
 
         Args:

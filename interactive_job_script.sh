@@ -6,7 +6,7 @@ qsub \
 -m abe \
 -A engin_fluxg \
 -q fluxg \
--l qos=flux,nodes=1:gpus=1,pmem=4gb,walltime=00:04:00:00 \
+-l qos=flux,nodes=1:gpus=1,pmem=16gb,walltime=00:04:00:00 \
 -j oe \
 -V \
--d "/scratch/mdatascienceteam_flux/cupjinh/"
+

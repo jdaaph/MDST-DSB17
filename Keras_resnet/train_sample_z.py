@@ -21,7 +21,7 @@ early_stopper = EarlyStopping(monitor='val_acc', min_delta=0.001, patience=10)
 csv_logger = CSVLogger('resnet18_sample.csv')
 
 # batch_size = 32
-batch_size = 5
+batch_size = 32
 nb_classes = 1
 nb_epoch = 200
 data_augmentation = True
@@ -32,10 +32,16 @@ img_rows, img_cols = 512, 512
 img_channels = 1
 
 # The data, shuffled and split between train and test sets:
-(X_train, y_train), (X_test, y_test) = load_data()
+(X_train, Y_train), (X_test, Y_test) = load_sample()
+
+X_train = X_train[:,:,:,:]
+Y_train = Y_train[:]
 
 X_train = X_train.astype('float32')
 X_test = X_test.astype('float32')
+
+X_train = X_train.transpose(0, 2, 3, 1)
+X_test = X_test.transpose(0, 2, 3, 1)
 
 # subtract mean and normalize
 mean_image = np.mean(X_train, axis=0)
@@ -47,7 +53,7 @@ X_test /= 1024.
 model = resnet.ResnetBuilder.build_resnet_18((img_channels, img_rows, img_cols), nb_classes)
 model.compile(loss='mse',
               optimizer='adam',
-              metrics=['accuracy'])
+              metrics=['mean_squared_error','mean_absolute_error'])
 
 if not data_augmentation:
     print('Not using data augmentation.')
@@ -56,7 +62,7 @@ if not data_augmentation:
               nb_epoch=nb_epoch,
               validation_data=(X_test, Y_test),
               shuffle=True,
-              callbacks=[lr_reducer, early_stopper, csv_logger])
+              callbacks=[lr_reducer, csv_logger])
 else:
     print('Using real-time data augmentation.')
     # This will do preprocessing and realtime data augmentation:
@@ -81,4 +87,4 @@ else:
                         samples_per_epoch=X_train.shape[0],
                         validation_data=(X_test, Y_test),
                         nb_epoch=nb_epoch, verbose=1, max_q_size=100,
-                        callbacks=[lr_reducer, early_stopper, csv_logger])
+                        callbacks=[lr_reducer, csv_logger])
