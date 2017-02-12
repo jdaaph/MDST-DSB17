@@ -176,7 +176,7 @@ def _get_block(identifier):
 
 class ResnetBuilder(object):
     @staticmethod
-    def build(input_shape, num_outputs, block_fn, repetitions):
+    def build(input_shape, num_outputs, block_fn, repetitions, last_activation='relu'):
         """Builds a custom ResNet like architecture.
 
         Args:
@@ -222,7 +222,7 @@ class ResnetBuilder(object):
                                             block._keras_shape[COL_AXIS]),
                                  strides=(1, 1))(block_output)
         flatten1 = Flatten()(pool2)
-        dense = Dense(output_dim=num_outputs, init="he_normal", activation="softmax")(flatten1)
+        dense = Dense(output_dim=num_outputs, init="he_normal", activation=last_activation)(flatten1)
 
         model = Model(input=input, output=dense)
         return model
