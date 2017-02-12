@@ -1,0 +1,16 @@
+#!/bin/sh
+#PBS -N total_data_loader
+#PBS -M daich@umich.edu
+#PBS -m abe
+
+# Change the number of cores (ppn=1), amount of memory, and walltime:
+#PBS -l nodes=1:ppn=1,pmem=8gb,walltime=10:00:00
+#PBS -j oe
+#PBS -V
+#PBS -A engin_flux
+#PBS -q flux
+#PBS -l qos=flux
+
+####  End PBS preamble
+cd /home/daich/GitHub/MDST-DSB17/Keras_resnet
+python twoD_data_loader.py
